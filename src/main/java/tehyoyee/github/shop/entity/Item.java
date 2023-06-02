@@ -5,20 +5,38 @@ import lombok.Setter;
 import lombok.ToString;
 import tehyoyee.github.shop.constant.ItemSellStatus;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@javax.persistence.Entity
+@Table(name = "item")
 @Getter
 @Setter
 @ToString
 public class Item {
 
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String itemNm;
-	private int price;
-	private int stockNumber;
-	private String itemDetail;
-	private ItemSellStatus itemSellStatus;
-	private LocalDateTime regTime; //등록 시간
-	private LocalDateTime updateTime; //수정 시간
 
+	@Column(nullable = false, length = 50)
+	private String itemNm;
+
+	@Column(name = "price", nullable = false)
+	private int price;
+
+	@Column(nullable = false)
+	private int stockNumber;
+
+	@Lob
+	@Column(nullable = false)
+	private String itemDetail;
+
+	@Enumerated(EnumType.STRING)
+	private ItemSellStatus itemSellStatus;
+
+	private LocalDateTime regTime;
+
+	private LocalDateTime updateTime;
 }
