@@ -88,4 +88,24 @@ class ItemRepositoryTest {
 			System.out.println("item.toString() = " + item.toString());
 		}
 	}
+
+	@Test
+	@DisplayName("@Query를 이용한 상품 조회 테스트")
+	void findByItemDetailTest() {
+		this.createItemList();
+		List<Item> itemList = itemRepository.findByItemDetail("상세 설명");
+		for (Item item : itemList) {
+			System.out.println("item.toString() = " + item.toString());
+		}
+	}
+
+	@Test
+	@DisplayName("nativeQuery 속성을 이용한 상품 조회 테스트")
+	void findByItemDetailByNativeTest() {
+		this.createItemList();
+		List<Item> itemList = itemRepository.findByItemDetailByNative("상세 설명");
+		for (Item item : itemList) {
+			System.out.println("item.toString() = " + item.toString());
+		}
+	}
 }
