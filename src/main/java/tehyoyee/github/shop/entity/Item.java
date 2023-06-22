@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tehyoyee.github.shop.constant.ItemSellStatus;
+import tehyoyee.github.shop.dto.ItemFormDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,4 +40,12 @@ public class Item extends BaseEntity {
 	private LocalDateTime regTime;
 
 	private LocalDateTime updateTime;
+
+	public void updateItem(ItemFormDto itemFormDto) {
+		this.itemNm = itemFormDto.getItemNm();
+		this.price = itemFormDto.getPrice();
+		this.stockNumber = itemFormDto.getStockNumber();
+		this.itemDetail = itemFormDto.getItemDetail();
+		this.itemSellStatus = itemFormDto.getItemSellStatus();
+	}
 }
