@@ -1,11 +1,14 @@
 package tehyoyee.github.shop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tehyoyee.github.shop.dto.ItemFormDto;
 import tehyoyee.github.shop.dto.ItemImgDto;
+import tehyoyee.github.shop.dto.ItemSearchDto;
 import tehyoyee.github.shop.entity.Item;
 import tehyoyee.github.shop.entity.ItemImg;
 import tehyoyee.github.shop.repository.ItemImgRepository;
@@ -77,5 +80,10 @@ public class ItemService {
 		}
 
 		return item.getId();
+	}
+
+	@Transactional(readOnly = true)
+	public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+		return itemRepository.getAdminItemPage(itemSearchDto, pageable);
 	}
 }
