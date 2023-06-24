@@ -10,8 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
 import tehyoyee.github.shop.constant.ItemSellStatus;
 import tehyoyee.github.shop.dto.ItemSearchDto;
+import tehyoyee.github.shop.dto.MainItemDto;
+import tehyoyee.github.shop.dto.QMainItemDto;
 import tehyoyee.github.shop.entity.Item;
 import tehyoyee.github.shop.entity.QItem;
+import tehyoyee.github.shop.entity.QItemImg;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -83,40 +86,39 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 	private BooleanExpression itemNmLike(String searchQuery){
 		return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%" + searchQuery + "%");
 	}
-//
-//	@Override
-//	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-//		QItem item = QItem.item;
-//		QItemImg itemImg = QItemImg.itemImg;
-//
-//		List<MainItemDto> content = queryFactory
-//				.select(
-//						new QMainItemDto(
-//								item.id,
-//								item.itemNm,
-//								item.itemDetail,
-//								itemImg.imgUrl,
-//								item.price)
-//				)
-//				.from(itemImg)
-//				.join(itemImg.item, item)
-//				.where(itemImg.repimgYn.eq("Y"))
-//				.where(itemNmLike(itemSearchDto.getSearchQuery()))
-//				.orderBy(item.id.desc())
-//				.offset(pageable.getOffset())
-//				.limit(pageable.getPageSize())
-//				.fetch();
-//
-//		long total = queryFactory
-//				.select(Wildcard.count)
-//				.from(itemImg)
-//				.join(itemImg.item, item)
-//				.where(itemImg.repimgYn.eq("Y"))
-//				.where(itemNmLike(itemSearchDto.getSearchQuery()))
-//				.fetchOne()
-//				;
-//
-//		return new PageImpl<>(content, pageable, total);
-//	}
+
+	@Override
+	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+		QItem item = QItem.item;
+		QItemImg itemImg = QItemImg.itemImg;
+
+		List<MainItemDto> content = queryFactory
+				.select(
+						new QMainItemDto(
+								item.id,
+								item.itemNm,
+								item.itemDetail,
+								itemImg.imgUrl,
+								item.price)
+				)
+				.from(itemImg)
+				.join(itemImg.item, item)
+				.where(itemImg.repimgYn.eq("Y"))
+				.where(itemNmLike(itemSearchDto.getSearchQuery()))
+				.orderBy(item.id.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+
+		long total = queryFactory
+				.select(Wildcard.count)
+				.from(itemImg)
+				.join(itemImg.item, item)
+				.where(itemImg.repimgYn.eq("Y"))
+				.where(itemNmLike(itemSearchDto.getSearchQuery()))
+				.fetchOne();
+
+		return new PageImpl<>(content, pageable, total);
+	}
 
 }
